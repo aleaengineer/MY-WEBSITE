@@ -1,0 +1,144 @@
+@import 'tailwindcss';
+@plugin "@tailwindcss/typography";
+
+@source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
+@source '../../storage/framework/views/*.php';
+@source '../**/*.blade.php';
+@source '../**/*.js';
+
+@theme {
+    --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
+        'Segoe UI Symbol', 'Noto Color Emoji';
+}
+
+/* Responsif global: cegah scroll horizontal dan pastikan media tidak meluber. */
+html,
+body {
+    overflow-x: clip;
+    max-width: 100%;
+}
+
+body.public-site {
+    --color-slate-50: #fbfaff;
+    --color-slate-100: #f4f1fb;
+    --color-slate-200: #e7e1f2;
+    --color-slate-300: #d1c9e1;
+    --color-slate-400: #a99fbe;
+    --color-slate-500: #7c718f;
+    --color-slate-600: #5d536f;
+    --color-slate-700: #40364f;
+    --color-slate-800: #261d35;
+    --color-slate-900: #120d20;
+    --color-slate-950: #090610;
+
+    --color-indigo-50: #f5f3ff;
+    --color-indigo-100: #ede9fe;
+    --color-indigo-200: #ddd6fe;
+    --color-indigo-300: #c4b5fd;
+    --color-indigo-400: #a78bfa;
+    --color-indigo-500: #8b5cf6;
+    --color-indigo-600: #7c3aed;
+    --color-indigo-700: #6d28d9;
+    --color-indigo-800: #5b21b6;
+    --color-indigo-900: #4c1d95;
+    --color-indigo-950: #2e1065;
+
+    --color-cyan-50: #fdf4ff;
+    --color-cyan-100: #fae8ff;
+    --color-cyan-200: #f5d0fe;
+    --color-cyan-300: #e9d5ff;
+    --color-cyan-400: #d8b4fe;
+    --color-cyan-500: #c084fc;
+    --color-cyan-600: #a855f7;
+    --color-cyan-700: #9333ea;
+    --color-cyan-800: #7e22ce;
+    --color-cyan-900: #6b21a8;
+    --color-cyan-950: #3b0764;
+
+    --color-sky-50: #f5f3ff;
+    --color-sky-100: #ede9fe;
+    --color-sky-200: #ddd6fe;
+    --color-sky-300: #d8b4fe;
+    --color-sky-400: #c084fc;
+    --color-sky-500: #a855f7;
+    --color-sky-600: #9333ea;
+    --color-sky-700: #7e22ce;
+    --color-sky-800: #6b21a8;
+    --color-sky-900: #581c87;
+    --color-sky-950: #3b0764;
+
+    background-color: var(--color-slate-900);
+    background-image:
+        radial-gradient(ellipse at 12% 8%, rgb(91 33 182 / 10%), transparent 34rem),
+        radial-gradient(ellipse at 88% 34%, rgb(126 34 206 / 7%), transparent 38rem);
+    background-attachment: fixed;
+}
+
+img,
+video,
+iframe {
+    max-width: 100%;
+    height: auto;
+}
+
+pre {
+    max-width: 100%;
+    overflow-x: auto;
+}
+
+/* Dark violet nebula and a soft star field for the homepage hero. */
+.hero-cosmos {
+    background:
+        radial-gradient(ellipse at 50% 76%, rgb(78 43 150 / 22%), transparent 58%),
+        linear-gradient(180deg, #080512 0%, #0b0718 58%, #090512 100%);
+}
+
+.hero-cosmos__glow {
+    background:
+        radial-gradient(ellipse 48% 34% at 50% 77%, rgb(100 64 190 / 17%), transparent 75%),
+        radial-gradient(ellipse 30% 24% at 50% 100%, rgb(71 44 143 / 20%), transparent 78%);
+    filter: blur(18px);
+    animation: hero-nebula-breathe 12s ease-in-out infinite alternate;
+    will-change: opacity, transform;
+}
+
+.hero-cosmos__stars {
+    opacity: 0.58;
+    mask-image: linear-gradient(to bottom, transparent 12%, black 54%, black 100%);
+    display: block;
+}
+
+@keyframes hero-nebula-breathe {
+    from {
+        opacity: 0.65;
+        transform: scale(0.96);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1.06);
+    }
+}
+
+/* Scroll-reveal: elemen muncul halus saat masuk viewport. */
+[data-reveal] {
+    opacity: 0;
+    transform: translateY(24px);
+    transition:
+        opacity 0.7s ease,
+        transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+    will-change: opacity, transform;
+}
+
+[data-reveal].is-visible {
+    opacity: 1;
+    transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    [data-reveal] {
+        opacity: 1;
+        transform: none;
+        transition: none;
+    }
+}
