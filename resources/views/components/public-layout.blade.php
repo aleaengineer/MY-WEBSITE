@@ -5,7 +5,7 @@
 --}}
 @props([
     'title' => 'Farhan Maulana Syidiq — NOC Engineer & Web Developer',
-    'description' => 'Portofolio Farhan Maulana Syidiq, NOC Engineer & Network Administrator. Spesialis MikroTik RouterOS, GPON/EPON, Proxmox VE, dan Laravel.',
+    'description' => 'Portofolio Farhan Maulana Syidiq, Netwok Engineer & Network Administrator. Spesialis MikroTik RouterOS, GPON/EPON, Proxmox VE, dan Laravel.',
     'image' => null,
     'type' => 'website',
     'robots' => 'index, follow',
