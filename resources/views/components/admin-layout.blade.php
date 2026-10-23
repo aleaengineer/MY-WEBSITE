@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex, nofollow">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>{{ ($title ?? 'Panel Admin') }} — {{ config('app.name') }}</title>
     <link rel="icon" type="image/png" href="{{ asset('images/logo.png') }}">
@@ -85,7 +86,9 @@
                     <path stroke-linecap="round" stroke-linejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 0 1-2.25 2.25h-15a2.25 2.25 0 0 1-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25m19.5 0v.243a2.25 2.25 0 0 1-1.07 1.916l-7.5 4.615a2.25 2.25 0 0 1-2.36 0L3.32 8.91a2.25 2.25 0 0 1-1.07-1.916V6.75"/>
                 </svg>
                 Pesan
-                @php($unread = App\Models\Message::unread()->count())
+                @php
+                    $unread = App\Models\Message::unread()->count();
+                @endphp
                 @if ($unread > 0)
                     <span class="ml-auto rounded-full bg-rose-500/20 px-2 py-0.5 text-xs font-semibold text-rose-400">{{ $unread }}</span>
                 @endif

@@ -4,10 +4,11 @@
     Konten halaman diisi lewat $slot.
 --}}
 @props([
-    'title' => 'Farhan Ale — Network Engineer & Web Developer',
-    'description' => 'Portofolio Farhan Maulana Syidiq — NOC Engineer, Network Administrator & Web Developer. Spesialis MikroTik RouterOS, OLT GPON/EPON, Proxmox VE, dan Laravel.',
+    'title' => 'Farhan Maulana Syidiq — NOC Engineer & Web Developer',
+    'description' => 'Portofolio Farhan Maulana Syidiq, NOC Engineer & Network Administrator. Spesialis MikroTik RouterOS, GPON/EPON, Proxmox VE, dan Laravel.',
     'image' => null,
     'type' => 'website',
+    'robots' => 'index, follow',
 ])
 <!DOCTYPE html>
 <html lang="id" class="scroll-smooth">
@@ -15,22 +16,42 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="{{ $description }}">
+    <meta name="author" content="Farhan Maulana Syidiq">
+    <meta name="robots" content="{{ $robots }}">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>{{ $title }}</title>
-    @php($socialImage = $image ? url($image) : null)
-    <link rel="canonical" href="{{ url()->current() }}">
+    @php
+        $socialImage = $image ? url($image) : null;
+        $canonical = url()->current();
+        $query = collect(request()->query())
+            ->only(['kategori', 'tag', 'q'])
+            ->filter(fn ($value) => $value !== null && $value !== '')
+            ->all();
+        $page = request()->integer('page');
+
+        if ($page > 1) {
+            $query['page'] = $page;
+        }
+
+        if ($query !== []) {
+            ksort($query);
+            $canonical .= '?'.http_build_query($query, '', '&', PHP_QUERY_RFC3986);
+        }
+    @endphp
+    <link rel="canonical" href="{{ $canonical }}">
+    <link rel="sitemap" type="application/xml" title="Sitemap" href="{{ route('sitemap') }}">
     <link rel="icon" type="image/png" href="{{ asset('images/logo.png') }}">
     <meta property="og:locale" content="id_ID">
     <meta property="og:site_name" content="{{ config('app.name') }}">
     <meta property="og:title" content="{{ $title }}">
     <meta property="og:description" content="{{ $description }}">
     <meta property="og:type" content="{{ $type }}">
-    <meta property="og:url" content="{{ url()->current() }}">
+    <meta property="og:url" content="{{ $canonical }}">
     @if ($socialImage)
         <meta property="og:image" content="{{ $socialImage }}">
         <meta property="og:image:alt" content="{{ $title }}">
     @endif
-    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:card" content="{{ $socialImage ? 'summary_large_image' : 'summary' }}">
     <meta name="twitter:title" content="{{ $title }}">
     <meta name="twitter:description" content="{{ $description }}">
     @if ($socialImage)
@@ -40,6 +61,7 @@
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link rel="stylesheet" href="https://fonts.bunny.net/css?family=instrument-sans:400,500,600,700&display=swap">
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+    @stack('head')
 </head>
 <body class="public-site overflow-x-clip bg-slate-900 font-sans text-slate-100 antialiased selection:bg-indigo-500/40">
 

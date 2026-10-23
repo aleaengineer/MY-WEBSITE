@@ -2,8 +2,8 @@
 
 namespace App\Models;
 
+use App\Support\MarkdownRenderer;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Str;
 
 class Education extends Model
 {
@@ -59,9 +59,6 @@ class Education extends Model
      */
     public function getHtmlDescriptionAttribute(): string
     {
-        return Str::markdown((string) $this->description, [
-            'html_input' => 'strip',
-            'allow_unsafe_links' => false,
-        ]);
+        return MarkdownRenderer::toHtml($this->description);
     }
 }

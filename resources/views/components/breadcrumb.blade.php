@@ -21,4 +21,25 @@
             @endforeach
         </ol>
     </nav>
+
+    @php
+        $breadcrumbSchema = [
+            '@context' => 'https://schema.org',
+            '@type' => 'BreadcrumbList',
+            'itemListElement' => collect($items)->values()->map(function ($item, $index) {
+                $entry = [
+                    '@type' => 'ListItem',
+                    'position' => $index + 1,
+                    'name' => $item['label'],
+                ];
+
+                if (! empty($item['url'])) {
+                    $entry['item'] = $item['url'];
+                }
+
+                return $entry;
+            })->all(),
+        ];
+    @endphp
+    <script type="application/ld+json">{!! json_encode($breadcrumbSchema, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_AMP | JSON_HEX_QUOT) !!}</script>
 @endif

@@ -1,6 +1,7 @@
 <x-public-layout
     title="Pencarian — Farhan Maulana Syidiq"
-    description="Pencarian global proyek dan artikel di situs Farhan Maulana Syidiq.">
+    description="Pencarian global proyek dan artikel di situs Farhan Maulana Syidiq."
+    robots="noindex, follow">
 
     <section class="border-b border-slate-800/60 bg-slate-950/40">
         <div class="mx-auto max-w-6xl px-4 py-14 sm:px-6 sm:py-16 lg:px-8">

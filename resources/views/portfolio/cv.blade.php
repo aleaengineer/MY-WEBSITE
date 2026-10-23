@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="CV Farhan Maulana Syidiq — NOC Engineer, Network Administrator & Web Developer.">
     <title>CV — Farhan Maulana Syidiq</title>
+    <meta name="author" content="Farhan Maulana Syidiq">
+    <link rel="canonical" href="{{ route('portfolio.cv') }}">
     <link rel="icon" type="image/png" href="{{ asset('images/logo.png') }}">
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <style>

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Support\MarkdownRenderer;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 
@@ -48,14 +49,11 @@ class Experience extends Model
     }
 
     /**
-     * Deskripsi Markdown sudah di-render menjadi HTML (mendukung H1/H2/H3).
+     * Deskripsi Markdown sudah di-render menjadi HTML (mendukung H2/H3).
      */
     public function getHtmlDescriptionAttribute(): string
     {
-        return Str::markdown((string) $this->description, [
-            'html_input' => 'strip',
-            'allow_unsafe_links' => false,
-        ]);
+        return MarkdownRenderer::toHtml($this->description);
     }
 
     /**
@@ -67,6 +65,6 @@ class Experience extends Model
             return (string) $this->company;
         }
 
-        return Str::limit(strip_tags($this->html_description), $limit);
+        return Str::limit(Str::squish(strip_tags($this->html_description)), $limit);
     }
 }

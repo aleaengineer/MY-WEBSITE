@@ -1,3 +1,50 @@
+@push('head')
+    @php
+        $articleSchema = array_filter([
+            '@context' => 'https://schema.org',
+            '@type' => 'BlogPosting',
+            'headline' => $post->title,
+            'description' => $post->excerpt_text,
+            'image' => $post->thumbnail_url ? [url($post->thumbnail_url)] : null,
+            'author' => [
+                '@type' => 'Person',
+                'name' => 'Farhan Maulana Syidiq',
+                'url' => route('portfolio.index'),
+            ],
+            'publisher' => [
+                '@type' => 'Organization',
+                'name' => 'Farhan Maulana Syidiq',
+                'url' => route('portfolio.index'),
+                'logo' => [
+                    '@type' => 'ImageObject',
+                    'url' => asset('images/logo.png'),
+                ],
+            ],
+            'datePublished' => $post->published_at?->toAtomString(),
+            'dateModified' => ($post->updated_at ?? $post->published_at)?->toAtomString(),
+            'mainEntityOfPage' => [
+                '@type' => 'WebPage',
+                '@id' => route('blog.show', $post),
+            ],
+            'inLanguage' => 'id-ID',
+            'keywords' => implode(', ', (array) ($post->tags ?? [])),
+        ], fn ($value) => $value !== null && $value !== '' && $value !== []);
+    @endphp
+    <script type="application/ld+json">{!! json_encode($articleSchema, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_AMP | JSON_HEX_QUOT) !!}</script>
+    @if ($post->published_at)
+        <meta property="article:published_time" content="{{ $post->published_at->toIso8601String() }}">
+    @endif
+    @if ($post->updated_at)
+        <meta property="article:modified_time" content="{{ $post->updated_at->toIso8601String() }}">
+    @endif
+    @if ($post->category)
+        <meta property="article:section" content="{{ $post->category }}">
+    @endif
+    @foreach ((array) ($post->tags ?? []) as $tag)
+        <meta property="article:tag" content="{{ $tag }}">
+    @endforeach
+@endpush
+
 <x-public-layout
     :title="$post->title.' — Blog Farhan Maulana Syidiq'"
     :description="$post->excerpt_text"
@@ -86,8 +133,10 @@
             {{-- Bagikan --}}
             <div x-data="{ copied: false }" class="mt-12 flex flex-wrap items-center gap-3 rounded-2xl border border-slate-800 bg-slate-800/40 p-5">
                 <span class="text-sm font-semibold text-slate-300">Bagikan artikel ini:</span>
-                @php($shareUrl = urlencode(url()->current()))
-                @php($shareText = urlencode($post->title))
+                @php
+                    $shareUrl = urlencode(url()->current());
+                    $shareText = urlencode($post->title);
+                @endphp
                 <a href="https://wa.me/?text={{ $shareText }}%20{{ $shareUrl }}" target="_blank" rel="noopener noreferrer" title="Bagikan ke WhatsApp"
                    class="rounded-lg border border-slate-700 bg-slate-900/50 p-2.5 text-slate-300 transition hover:border-emerald-500/40 hover:text-emerald-400">
                     <svg class="h-4 w-4" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
@@ -159,17 +208,4 @@
             @endif
         </div>
     </article>
-
-    <script type="application/ld+json">
-        {!! json_encode([
-            '@context' => 'https://schema.org',
-            '@type' => 'BlogPosting',
-            'headline' => $post->title,
-            'description' => $post->excerpt_text,
-            'author' => ['@type' => 'Person', 'name' => 'Farhan Maulana Syidiq'],
-            'datePublished' => $post->published_at?->toAtomString(),
-            'dateModified' => ($post->updated_at ?? $post->published_at)?->toAtomString(),
-            'mainEntityOfPage' => url()->current(),
-        ], JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) !!}
-    </script>
 </x-public-layout>

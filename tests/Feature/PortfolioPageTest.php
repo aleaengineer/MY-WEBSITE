@@ -30,7 +30,7 @@ class PortfolioPageTest extends TestCase
 
         $response->assertOk();
         $response->assertSee('class="public-site', false);
-        $response->assertSee('<title>Farhan Ale — Network Engineer &amp; Web Developer</title>', false);
+        $response->assertSee('<title>Farhan Maulana Syidiq — NOC Engineer &amp; Web Developer</title>', false);
         $response->assertSee('hero-cosmos', false);
         $response->assertSee('data-hero-stars', false);
         $response->assertSee('Farhan Maulana Syidiq');

@@ -1,4 +1,38 @@
-<x-public-layout>
+@push('head')
+    @php
+        $personId = route('portfolio.index').'#person';
+        $websiteId = route('portfolio.index').'#website';
+        $homeSchema = [
+            '@context' => 'https://schema.org',
+            '@graph' => [
+                [
+                    '@type' => 'Person',
+                    '@id' => $personId,
+                    'name' => 'Farhan Maulana Syidiq',
+                    'alternateName' => 'Farhan Ale',
+                    'url' => route('portfolio.index'),
+                    'image' => asset('images/cv-photo.jpg'),
+                    'jobTitle' => ['NOC Engineer', 'Network Administrator', 'Web Developer'],
+                    'knowsAbout' => ['Network Operations', 'MikroTik RouterOS', 'GPON/EPON', 'Proxmox VE', 'Laravel'],
+                    'sameAs' => ['https://github.com/aleaengineer'],
+                ],
+                [
+                    '@type' => 'WebSite',
+                    '@id' => $websiteId,
+                    'url' => route('portfolio.index'),
+                    'name' => config('app.name'),
+                    'inLanguage' => 'id-ID',
+                    'publisher' => ['@id' => $personId],
+                ],
+            ],
+        ];
+    @endphp
+    <script type="application/ld+json">{!! json_encode($homeSchema, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_AMP | JSON_HEX_QUOT) !!}</script>
+@endpush
+
+<x-public-layout
+    title="Farhan Maulana Syidiq — NOC Engineer & Web Developer"
+    description="Portofolio Farhan Maulana Syidiq, NOC Engineer & Network Administrator. Spesialis MikroTik RouterOS, GPON/EPON, Proxmox VE, dan Laravel.">
     {{-- ==================== HERO ==================== --}}
     <section id="beranda" class="relative flex scroll-mt-20 items-center overflow-hidden bg-[#080512] lg:min-h-[calc(100svh-4rem)]">
         <div class="hero-cosmos pointer-events-none absolute inset-0" aria-hidden="true">

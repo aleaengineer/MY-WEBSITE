@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Support\MarkdownRenderer;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
@@ -98,10 +99,7 @@ class Post extends Model
      */
     public function getHtmlContentAttribute(): string
     {
-        return Str::markdown($this->content, [
-            'html_input' => 'strip',
-            'allow_unsafe_links' => false,
-        ]);
+        return MarkdownRenderer::toHtml($this->content);
     }
 
     /**
@@ -110,10 +108,10 @@ class Post extends Model
     public function getExcerptTextAttribute(): string
     {
         if (filled($this->excerpt)) {
-            return $this->excerpt;
+            return Str::squish($this->excerpt);
         }
 
-        return Str::limit(strip_tags($this->html_content), 160);
+        return Str::limit(Str::squish(strip_tags($this->html_content)), 160);
     }
 
     /**

@@ -22,7 +22,6 @@ class SeoController extends Controller
             route('portfolio.contact.show'),
             route('portfolio.cv'),
             route('blog.index'),
-            route('search.index'),
         ]);
 
         $projects = Project::query()
@@ -73,8 +72,16 @@ class SeoController extends Controller
      */
     public function robots(): Response
     {
-        $content = "User-agent: *\nAllow: /\nSitemap: ".route('sitemap')."\n";
+        $content = implode("\n", [
+            'User-agent: *',
+            'Allow: /',
+            'Disallow: /admin',
+            'Disallow: /login',
+            '',
+            'Sitemap: '.route('sitemap'),
+            '',
+        ]);
 
-        return response($content, 200)->header('Content-Type', 'text/plain');
+        return response($content, 200)->header('Content-Type', 'text/plain; charset=UTF-8');
     }
 }

@@ -95,6 +95,6 @@ class Project extends Model
      */
     public function excerpt(int $limit = 140): string
     {
-        return Str::limit(strip_tags($this->description), $limit);
+        return Str::limit(Str::squish(strip_tags($this->description)), $limit);
     }
 }

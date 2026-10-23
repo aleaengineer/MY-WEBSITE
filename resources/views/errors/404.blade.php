@@ -1,6 +1,7 @@
 <x-public-layout
     title="404 — Halaman Tidak Ditemukan"
-    description="Halaman yang Anda cari tidak ditemukan atau sudah dipindahkan.">
+    description="Halaman yang Anda cari tidak ditemukan atau sudah dipindahkan."
+    robots="noindex, follow">
 
     <section class="relative overflow-hidden bg-slate-900">
         <div class="pointer-events-none absolute inset-0" aria-hidden="true">

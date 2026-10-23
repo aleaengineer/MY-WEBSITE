@@ -48,7 +48,7 @@ class BlogTest extends TestCase
 
         $response->assertOk();
         $response->assertSee('Tips Provisioning ONU dengan Python');
-        $response->assertSee('<h1>Bagian Awal</h1>', false);
+        $response->assertSee('<h2>Bagian Awal</h2>', false);
         $response->assertSee('import paramiko', false);
     }
 
